@@ -23,6 +23,5 @@ before_script:
   - cd ..
 
 script:
-  - ls -lah ${TRAVIS_BUILD_DIR}/.config/radare2/plugins
   - ./configure --prefix=`pwd`/radare2/install
   - r2pm -i armthumb
