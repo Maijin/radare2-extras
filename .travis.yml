@@ -1,0 +1,30 @@
+os:
+	  - linux
+	compiler:
+	  - gcc
+	sudo:
+	  - false
+	language:
+	  - c
+	cache:
+	  - ccache
+	  - apt
+	
+
+	before_script:
+	    - git clone https://github.com/radare/radare2 && cd radare2
+	    - ./configure --prefix=`pwd`/install > /dev/null
+	    - make -s -j2 > /dev/null
+	    - make install > /dev/null
+	    - export PATH=${TRAVIS_BUILD_DIR}/radare2/install/bin:${PATH}
+	    - export LD_LIBRARY_PATH=${TRAVIS_BUILD_DIR}/radare2/install/lib:${LD_LIBRARY_PATH}
+	    - export LIBR_INCLUDE=${TRAVIS_BUILD_DIR}/radare2/libr/include
+	    - export LIBR_UTIL=${TRAVIS_BUILD_DIR}/radare2/libr/util
+	    - export PKG_CONFIG_PATH=${TRAVIS_BUILD_DIR}/radare2/pkgcfg
+	    - cd ..
+	
+
+	script:
+	    - ls -lah ${TRAVIS_BUILD_DIR}/.config/radare2/plugins
+	    - ./configure --prefix=`pwd`/radare2/install
+	    - r2pm -i armthumb
